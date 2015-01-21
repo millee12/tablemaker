@@ -5,6 +5,7 @@
 %Makes Property Tables of size nxn for 2-Phase Fluids using RefProp 9.1 dll
 clear
 close all
+addpath('../refproptools')
 tic
 %Set vector length
 n=25;
