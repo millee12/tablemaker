@@ -18,6 +18,7 @@ dep=['T';'D';'S';'Q';'H';'U';'R'];
 ndep=length(dep);
 indep=['T';'P';'H';'U';'D';'S';'Q'];
 nindep=length(indep);
+disp(['estimated runtime: ', num2str(.0018*(ndep*nindep*n^2)/60),'(min)'])
 %% Variable Descriptions
 %                           0   Refprop DLL version number
 %                           A   Speed of sound [m/s]
