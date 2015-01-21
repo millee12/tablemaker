@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project MetadataType="monolithic">
+    <EntryPoints Location="Root"/>
+    <Files Location="Root">
+        <File Location="fpropsR134a.mat">
+            <Info>
+                <Category UUID="FileClassCategory">
+                    <Label UUID="design"/>
+                </Category>
+            </Info>
+        </File>
+        <File Location=".gitignore">
+            <Info>
+                <Category UUID="FileClassCategory">
+                    <Label UUID="other"/>
+                </Category>
+            </Info>
+        </File>
+        <File Location="quirks.m">
+            <Info>
+                <Category UUID="FileClassCategory">
+                    <Label UUID="design"/>
+                </Category>
+            </Info>
+        </File>
+        <File Location="README.md">
+            <Info>
+                <Category UUID="FileClassCategory">
+                    <Label UUID="other"/>
+                </Category>
+            </Info>
+        </File>
+        <File Location="RPtabs.m">
+            <Info>
+                <Category UUID="FileClassCategory">
+                    <Label UUID="design"/>
+                </Category>
+            </Info>
+        </File>
+    </Files>
+    <ProjectData Location="Root"/>
+    <Categories Location="Root">
+        <Category Location="FileClassCategory">
+            <Info DataType="None" Name="Classification" ReadOnly="1" SingleValued="1"/>
+            <Label Location="design">
+                <Info Name="Design" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="derived">
+                <Info Name="Derived" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="artifact">
+                <Info Name="Artifact" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="convenience">
+                <Info Name="Convenience" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="other">
+                <Info Name="Other" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="none">
+                <Info Name="None" ReadOnly="READ_ONLY"/>
+            </Label>
+        </Category>
+        <Category Location="ReviewCategory">
+            <Info DataType="String" Name="Review" ReadOnly="1" SingleValued="1"/>
+            <Label Location="toReview">
+                <Info Name="To Review" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="approved">
+                <Info Name="Approved" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="rejected">
+                <Info Name="Rejected" ReadOnly="READ_ONLY"/>
+            </Label>
+            <Label Location="needMoreInfo">
+                <Info Name="More Information Required" ReadOnly="READ_ONLY"/>
+            </Label>
+        </Category>
+    </Categories>
+    <Extensions Location="Root"/>
+    <Info Location="ProjectData">
+        <Info Name="generate tables"/>
+    </Info>
+</project>
