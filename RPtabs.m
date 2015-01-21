@@ -115,3 +115,22 @@ for w=1:ndep
 end
 tt=toc;
 disp(['actual runtime: ',num2str(tt/60),'(min)'])
+%% Plot Some Results (to check against Refprop avi)
+figure(1);contourf(fluid.H,fluid.P,fluid.THP,50)
+ylabel('Pressure (kPa)');
+xlabel ('Specific Enthalpy J/kg')
+title('Temperature (K)')
+ 
+figure(2);contourf(fluid.H,fluid.P,fluid.DPH',50)
+ylabel('Pressure (kPa)');
+xlabel ('Specific Enthalpy J/kg')
+title('Density (kg/m^3)')
+fluid.QPH(fluid.QPH > 1) = 1;
+fluid.QPH(fluid.QPH < 0) = 0;
+ 
+figure(3);contourf(fluid.H,fluid.P,fluid.QPH',50)
+ylabel('Pressure (kPa)');
+xlabel ('Specific Enthalpy (J/kg)')
+title('Quality (kg/kg)')
+%Save File
+save(['fprops',fluid.name,'.mat'],'fluid')
