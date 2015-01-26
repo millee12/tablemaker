@@ -8,7 +8,7 @@ close all
 addpath('../refproptools')
 tic
 %Set vector length
-n=50;
+n=25;
 %Set Substance Name
 fluid.name='R134a';
 %pressures above critical?(1-yes 0-no)
@@ -87,22 +87,28 @@ if supercrit==0
     fluid.P=linspace(min,crit,n);
 end
 %% Saturation Curves and vapor Pressure
-fluid.pl=zeros(n,1);
-fluid.hl=zeros(n,1);
-fluid.hv=zeros(n,1);
+fluid.plT=zeros(n,1);
+fluid.hlP=zeros(n,1);
+fluid.hvP=zeros(n,1);
+fluid.dlP=zeros(n,1);
+fluid.dvP=zeros(n,1);
+depcurvs=['P','H','H','D','D'];
+indepcurvs1=['v','l','v','l','v'];
+indepcurvs2=['T','P','P','P','P'];
+for k=1:length(depcurvs)
+    str=[depcurvs(k),indepcurvs1(k),indepcurvs2(k)];
+    if strcmp(indepcurvs1(k),'v')
+        qual=1;
+    else
+        qual=0;
+    end
 for i=1:n
     try
-        fluid.pl(i) = refpropm('P','T',fluid.T(i),'Q',0,fluid.name);
+        fluid.(str) = refpropm(depcurvs(k),indepcurvs2(k),...
+            fluid.(indepcurvs2(k))(i),'Q',qual,fluid.name);
     catch
     end
-    try
-        fluid.hl(i) = refpropm('H','P',fluid.P(i),'Q',0,fluid.name);
-    catch
-    end
-    try
-        fluid.hv(i) = refpropm('H','P',fluid.P(i),'Q',1,fluid.name);
-    catch
-    end
+end
 end
 %% Generate Tables
 for w=1:ndep
@@ -136,7 +142,9 @@ end
 tt=toc;
 disp(['actual runtime: ',num2str(tt/60),'(min)'])
 %% Plot Some Results (to check against Refprop avi)
-figure(1);contourf(fluid.H,fluid.P,fluid.THP,50)
+figure(1); hold on
+contourf(fluid.H,fluid.P,fluid.THP,50)
+plot(fluid.hlP,fluid.P,'Linewidth',2)
 ylabel('Pressure (kPa)');
 xlabel ('Specific Enthalpy J/kg')
 title('Temperature (K)')
@@ -152,5 +160,5 @@ figure(3);contourf(fluid.H,fluid.P,fluid.QPH',50)
 ylabel('Pressure (kPa)');
 xlabel ('Specific Enthalpy (J/kg)')
 title('Quality (kg/kg)')
-%Save File
+%% Save File
 save(['fprops',fluid.name,'.mat'],'fluid')
