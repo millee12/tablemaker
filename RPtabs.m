@@ -8,13 +8,13 @@ close all
 addpath('../refproptools')
 tic
 %Set vector length
-n=25;
+n=50;
 %Set Substance Name
 fluid.name='R134a';
 %pressures above critical?(1-yes 0-no)
 supercrit=0;
 %Specify Variables
-dep=['T';'D';'S';'Q';'H';'U';'R'];
+dep=['P';'T';'D';'S';'Q';'H';'U';'R'];
 ndep=length(dep);
 indep=['T';'P';'H';'U';'D';'S';'Q'];
 nindep=length(indep);
@@ -85,6 +85,24 @@ if supercrit==0
     min=refpropm('P','R',0,' ',0,fluid.name);
     crit=refpropm('P','C',0,' ',0,fluid.name);
     fluid.P=linspace(min,crit,n);
+end
+%% Saturation Curves and vapor Pressure
+fluid.pl=zeros(n,1);
+fluid.hl=zeros(n,1);
+fluid.hv=zeros(n,1);
+for i=1:n
+    try
+        fluid.pl(i) = refpropm('P','T',fluid.T(i),'Q',0,fluid.name);
+    catch
+    end
+    try
+        fluid.hl(i) = refpropm('H','P',fluid.P(i),'Q',0,fluid.name);
+    catch
+    end
+    try
+        fluid.hv(i) = refpropm('H','P',fluid.P(i),'Q',1,fluid.name);
+    catch
+    end
 end
 %% Generate Tables
 for w=1:ndep
