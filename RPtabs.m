@@ -87,28 +87,25 @@ if supercrit==0
     fluid.P=linspace(min,crit,n);
 end
 %% Saturation Curves and vapor Pressure
-fluid.plT=zeros(n,1);
-fluid.hlP=zeros(n,1);
-fluid.hvP=zeros(n,1);
-fluid.dlP=zeros(n,1);
-fluid.dvP=zeros(n,1);
 depcurvs=['P','H','H','D','D'];
 indepcurvs1=['v','l','v','l','v'];
 indepcurvs2=['T','P','P','P','P'];
 for k=1:length(depcurvs)
     str=[depcurvs(k),indepcurvs1(k),indepcurvs2(k)];
+    fluid.(str)=NaN*ones(n,1);
     if strcmp(indepcurvs1(k),'v')
         qual=1;
     else
         qual=0;
     end
-for i=1:n
-    try
-        fluid.(str) = refpropm(depcurvs(k),indepcurvs2(k),...
-            fluid.(indepcurvs2(k))(i),'Q',qual,fluid.name);
-    catch
+    for i=1:n
+        try
+            fluid.(str)(i) = refpropm(depcurvs(k),indepcurvs2(k),...
+                fluid.(indepcurvs2(k))(i),'Q',qual,fluid.name);
+        catch
+        end
     end
-end
+    [fluid] = quirks(fluid,str,n);
 end
 %% Generate Tables
 for w=1:ndep
@@ -144,21 +141,31 @@ disp(['actual runtime: ',num2str(tt/60),'(min)'])
 %% Plot Some Results (to check against Refprop avi)
 figure(1); hold on
 contourf(fluid.H,fluid.P,fluid.THP,50)
-plot(fluid.hlP,fluid.P,'Linewidth',2)
+plot(fluid.HlP,fluid.P,'--w','Linewidth',2)
+plot(fluid.HvP,fluid.P,'--w','Linewidth',2)
 ylabel('Pressure (kPa)');
 xlabel ('Specific Enthalpy J/kg')
 title('Temperature (K)')
- 
-figure(2);contourf(fluid.H,fluid.P,fluid.DPH',50)
+hold off
+
+figure(2);hold on
+contourf(fluid.H,fluid.P,fluid.DPH',50)
+plot(fluid.HlP,fluid.P,'--w','Linewidth',2)
+plot(fluid.HvP,fluid.P,'--w','Linewidth',2)
 ylabel('Pressure (kPa)');
 xlabel ('Specific Enthalpy J/kg')
 title('Density (kg/m^3)')
 fluid.QPH(fluid.QPH > 1) = 1;
 fluid.QPH(fluid.QPH < 0) = 0;
- 
-figure(3);contourf(fluid.H,fluid.P,fluid.QPH',50)
+hold off
+
+figure(3); hold on
+contourf(fluid.H,fluid.P,fluid.QPH',50)
+plot(fluid.HlP,fluid.P,'--w','Linewidth',2)
+plot(fluid.HvP,fluid.P,'--w','Linewidth',2)
 ylabel('Pressure (kPa)');
 xlabel ('Specific Enthalpy (J/kg)')
 title('Quality (kg/kg)')
+hold off
 %% Save File
-save(['fprops',fluid.name,'.mat'],'fluid')
+save([fluid.name,'.mat'],'fluid')
